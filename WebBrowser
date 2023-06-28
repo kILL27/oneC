@@ -1,0 +1,59 @@
+using System;
+using System.Windows.Forms;
+
+public partial class BrowserForm : Form
+{
+    private WebBrowser webBrowser;
+
+    public BrowserForm()
+    {
+        InitializeComponent();
+        
+        webBrowser = new WebBrowser()
+        {
+            Dock = DockStyle.Fill,
+        };
+
+        Controls.Add(webBrowser);
+
+        // Navigation panel
+        var navigationPanel = new Panel()
+        {
+            Height = 30,
+            Dock = DockStyle.Top,
+        };
+        Controls.Add(navigationPanel);
+
+        // URL text box
+        var urlTextBox = new TextBox()
+        {
+            Dock = DockStyle.Fill,
+        };
+        navigationPanel.Controls.Add(urlTextBox);
+
+        // Go button
+        var goButton = new Button()
+        {
+            Text = "Go",
+            Dock = DockStyle.Right,
+        };
+        goButton.Click += (sender, e) =>
+        {
+            webBrowser.Navigate(urlTextBox.Text);
+        };
+        navigationPanel.Controls.Add(goButton);
+
+        // Back button
+        var backButton = new Button()
+        {
+            Text = "Back",
+            Dock = DockStyle.Left,
+        };
+        backButton.Click += (sender, e) =>
+        {
+            if (webBrowser.CanGoBack)
+                webBrowser.GoBack();
+        };
+        navigationPanel.Controls.Add(backButton);
+    }
+}
